@@ -3,7 +3,7 @@ package org.library.jpa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.library.BaseIntegrationTest;
-import org.library.models.Author;
+import org.library.model.Author;
 import org.library.repo.jpa.AuthorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,7 +1,7 @@
 package org.library.mapper;
 
 import org.library.dto.BookDto;
-import org.library.models.Book;
+import org.library.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

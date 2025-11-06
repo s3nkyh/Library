@@ -4,7 +4,7 @@ import org.jooq.DSLContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.library.BaseIntegrationTest;
-import org.library.models.Book;
+import org.library.model.Book;
 import org.library.repo.jooq.BorrowingJooqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 

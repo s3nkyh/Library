@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: Library API
+  description: Library API
+  version: 1.0.0
+servers:
+  - url: /api/v1
+
+paths:
+  /books/most-borrowed:
+    get:
+      summary: Get most borrowed book
+      operationId: getMostBorrowedBook
+      responses:
+        "200":
+          description: Most borrowed book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+  /authors/birth-years/stats:
+    get:
+      summary: Count authors grouped by birth year
+      operationId: getAuthorsCountBirthYear
+      responses:
+        "200":
+          description: Map year -> count
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+  /users/{readerId}/borrowed-books:
+    get:
+      summary: Get books borrowed by specific reader
+      operationId: getBooksByReaderId
+      parameters:
+        - name: readerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookDto'
+components:
+  schemas:
+    AuthorDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        country:
+          type: string
+      required:
+        - id
+        - name
+    GenreDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+        - id
+        - name
+    BookDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        author:
+          $ref: '#/components/schemas/AuthorDto'
+        genre:
+          $ref: '#/components/schemas/GenreDto'
+        publishedYear:
+          type: integer
+      required:
+        - id
+        - title
+        - author
+        - genre

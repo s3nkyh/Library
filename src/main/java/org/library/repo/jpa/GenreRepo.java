@@ -1,6 +1,6 @@
 package org.library.repo.jpa;
 
-import org.library.models.Genre;
+import org.library.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

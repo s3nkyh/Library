@@ -1,10 +1,13 @@
 import org.apache.hc.core5.io.SocketTimeoutExceptionFactory.create
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.openApiGenerate
+
 plugins {
     java
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
     id("nu.studer.jooq") version "9.0"
+    id ("org.openapi.generator") version "7.0.1"
 }
 
 group = "org"
@@ -35,6 +38,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
@@ -67,8 +71,46 @@ sourceSets {
     main {
         java {
             srcDir("src/main/generator")
+            srcDir ("${buildDir}/openapi-generated/src/main/java")
+            srcDir ("$buildDir/generated/openapi-client/src/main/java")
         }
     }
+}
+
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$projectDir/src/main/resources/openapi.yaml".replace("\\", "/"))
+    outputDir.set("$buildDir/openapi-generated")
+    apiPackage.set("org.library.generated.api")
+    modelPackage.set("org.library.generated.model")
+    invokerPackage.set("org.library.generated.invoker")
+
+    configOptions.set(
+        mapOf(
+            "interfaceOnly" to "true",
+            "useTags" to "true",
+            "java8" to "true",
+            "dateLibrary" to "java8",
+            "delegatePattern" to "false"
+        )
+    )
+}
+
+openApiGenerate {
+    generatorName = "java"
+    inputSpec.set("$rootDir/src/main/resources/openapi.yaml".replace("\\", "/"))
+    outputDir.set("$buildDir/generated/openapi-client")
+    apiPackage.set("org.library.generated.client.api")
+    modelPackage.set("org.library.generated.client.model")
+    invokerPackage.set("org.library.generated.client.invoker")
+
+    configOptions.set(
+        mapOf(
+            "library" to "resttemplate",
+            "dateLibrary" to "java8",
+            "useJakartaEe" to "true"
+        )
+    )
 }
 
 jooq {

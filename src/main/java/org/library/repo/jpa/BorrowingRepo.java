@@ -1,9 +1,7 @@
 package org.library.repo.jpa;
 
-import org.library.models.Book;
-import org.library.models.Borrowing;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.library.model.Book;
+import org.library.model.Borrowing;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

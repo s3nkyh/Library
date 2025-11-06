@@ -1,4 +1,4 @@
-package org.library.models;
+package org.library.model;
 
 public enum BorrowingStatus {
     BORROWED,

@@ -1,7 +1,7 @@
 package org.library.mapper;
 
 import org.library.dto.GenreDto;
-import org.library.models.Genre;
+import org.library.model.Genre;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
