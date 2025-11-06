@@ -18,12 +18,13 @@ public interface BorrowingRepo extends JpaRepository<Borrowing, Long> {
                 FROM Borrowing b
                 GROUP BY b.book
                 ORDER BY COUNT(b) DESC
+                LIMIT 1
             """)
-    Page<Book> findMostBorrowedBook(Pageable pageable);
+    Book findMostBorrowedBook();
 
     @Query("""
-                SELECT b.book 
-                FROM Borrowing b 
+                SELECT b.book
+                FROM Borrowing b
                 WHERE b.reader.id = :readerId
             """)
     List<Book> findBooksByReaderId(@Param("readerId") Long readerId);

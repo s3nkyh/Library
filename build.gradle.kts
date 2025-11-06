@@ -66,7 +66,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDir("src/main/generated")
+            srcDir("src/main/generator")
         }
     }
 }

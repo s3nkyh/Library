@@ -6,7 +6,6 @@ import org.library.BaseIntegrationTest;
 import org.library.models.*;
 import org.library.repo.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +86,7 @@ public class BorrowingJpaRepoTest extends BaseIntegrationTest {
 
     @Test
     void testFindMostBorrowedBook() {
-        Book mostBorrowed = borrowingRepo.findMostBorrowedBook(PageRequest.of(0, 1)).getContent().get(0);
+        Book mostBorrowed = borrowingRepo.findMostBorrowedBook();
 
         assertThat(mostBorrowed.getTitle()).isEqualTo("Book 1");
         assertThat(mostBorrowed.getAuthor().getName()).isEqualTo("Author 1");

@@ -4,12 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.DatePart;
 import org.jooq.impl.DSL;
-import org.jooq.impl.QOM;
-import org.library.generated.com.example.jooq.tables.Authors;
-import org.library.models.Author;
+import com.example.jooq.tables.Authors;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Map;
 
 @Repository

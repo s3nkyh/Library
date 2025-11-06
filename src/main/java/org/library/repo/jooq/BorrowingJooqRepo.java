@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
-import org.library.generated.com.example.jooq.tables.*;
+import com.example.jooq.tables.*;
 import org.library.models.Author;
 import org.library.models.Book;
 import org.library.models.Genre;

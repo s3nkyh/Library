@@ -34,7 +34,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public BookDto getMostBorrowedBookJpa() {
-        Book book = borrowingRepo.findMostBorrowedBook(PageRequest.of(0, 1)).getContent().get(0);
+        Book book = borrowingRepo.findMostBorrowedBook();
         log.info("Most borrowed book: {}", book.getTitle());
         return bookMapper.toBookDto(book);
     }
