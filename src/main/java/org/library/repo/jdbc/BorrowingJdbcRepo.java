@@ -1,9 +1,9 @@
 package org.library.repo.jdbc;
 
 import lombok.RequiredArgsConstructor;
-import org.library.models.Author;
-import org.library.models.Book;
-import org.library.models.Genre;
+import org.library.model.Author;
+import org.library.model.Book;
+import org.library.model.Genre;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

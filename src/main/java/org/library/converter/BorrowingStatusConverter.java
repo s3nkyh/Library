@@ -1,7 +1,8 @@
-package org.library.models;
+package org.library.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.library.model.BorrowingStatus;
 
 @Converter(autoApply = true)
 public class BorrowingStatusConverter implements AttributeConverter<BorrowingStatus, String> {

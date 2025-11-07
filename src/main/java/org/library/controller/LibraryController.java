@@ -1,10 +1,11 @@
 package org.library.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.library.dto.BookDto;
+import org.library.converter.DtoBookConverter;
+import org.library.generated.api.LibraryApi;
+import org.library.generated.model.BookDto;
 import org.library.service.LibraryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,24 +16,29 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class LibraryController {
+public class LibraryController implements LibraryApi {
     private final LibraryService libraryService;
+    private final DtoBookConverter dtoBookConverter;
 
-    @GetMapping("/books/most-borrowed")
-    public ResponseEntity<BookDto> getMostBorrowed() {
-        BookDto res = libraryService.getMostBorrowedBookJpa();
+    @Override
+    public ResponseEntity<BookDto> getMostBorrowedBook() {
+        var bookDto = libraryService.getMostBorrowedBookJpa();
+        BookDto res = dtoBookConverter.toBookDto(bookDto);
         return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/authors/birth-years/stats")
-    public ResponseEntity<Map<Integer, Integer>> getAuthorsCountByBirthYear() {
+    @Override
+    public ResponseEntity<Map<Integer, Integer>> getAuthorsCountBirthYear() {
         Map<Integer, Integer> res = libraryService.getAuthorsCountByBirthYearJpa();
         return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/users/{readerId}/borrowed-books")
-    public ResponseEntity<List<BookDto>> getBooksByUserId(@PathVariable Long readerId) {
-        List<BookDto> res = libraryService.getBooksByUserIdJpa(readerId);
+    @Override
+    public ResponseEntity<List<BookDto>> getBooksByReaderId(@PathVariable Long readerId) {
+        List<org.library.dto.BookDto> bookDtos = libraryService.getBooksByUserIdJpa(readerId);
+        var res = bookDtos.stream()
+                .map(dtoBookConverter::toBookDto)
+                .toList();
         return ResponseEntity.ok().body(res);
     }
 }

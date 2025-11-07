@@ -3,7 +3,7 @@ package org.library.jpa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.library.BaseIntegrationTest;
-import org.library.models.*;
+import org.library.model.*;
 import org.library.repo.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
