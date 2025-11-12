@@ -2,7 +2,7 @@ FROM gradle:8.4-jdk17 as builder
 WORKDIR /home/gradle/project
 COPY --chown=gradle:gradle . .
 
-RUN gradle --no-daemon build -x test
+RUN gradle --no-daemon build
 
 FROM eclipse-temurin:17-jre-jammy
 RUN useradd --no-create-home --uid 1000 appuser
