@@ -65,11 +65,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.named<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
-    imageName.set("library-app:latest")
-    environment.set(mapOf("BP_JVM_VERSION" to "17"))
-}
-
 sourceSets {
     main {
         java {
@@ -118,13 +113,6 @@ tasks.register("generateJavaClient", org.openapitools.generator.gradle.plugin.ta
     )
 }
 
-tasks.named<JavaCompile>("compileJava") {
-    dependsOn(
-        tasks.named("generateSpringApi"),
-        tasks.named("generateJavaClient")
-    )
-}
-
 jooq {
     version.set("3.19.26")
 
@@ -166,6 +154,17 @@ jooq {
     }
 }
 
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
+    imageName.set("library-app:latest")
+    environment.set(mapOf("BP_JVM_VERSION" to "17"))
+}
+
+tasks.named<JavaCompile>("compileJava") {
+    dependsOn(
+        tasks.named("generateSpringApi"),
+        tasks.named("generateJavaClient")
+    )
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()
