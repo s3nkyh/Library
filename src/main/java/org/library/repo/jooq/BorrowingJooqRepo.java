@@ -1,10 +1,10 @@
 package org.library.repo.jooq;
 
+import com.example.jooq.tables.*;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
-import com.example.jooq.tables.*;
 import org.library.model.Author;
 import org.library.model.Book;
 import org.library.model.Genre;

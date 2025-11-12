@@ -5,13 +5,34 @@ import org.junit.jupiter.api.Test;
 import org.library.BaseIntegrationTest;
 import org.library.repo.jdbc.AuthorsJdbcRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AuthorsJdbcRepoTest extends BaseIntegrationTest {
+@Testcontainers
+@SpringBootTest(properties = "spring.profiles.active=test")
+public class AuthorsJdbcRepoTest {
+    @Container
+    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.0")
+            .withDatabaseName("postgres")
+            .withUsername("postgres")
+            .withPassword("password");
+
+    @DynamicPropertySource
+    static void registerPgContainer(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.username", postgres::getUsername);
+    }
+
     @Autowired
     private AuthorsJdbcRepo authorsJdbcRepo;
 

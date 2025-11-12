@@ -68,7 +68,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public Map<Integer, Integer> getAuthorsCountByBirthYearJdbc() {
-        return  authorsJdbcRepo.countAuthorsByBirthYear();
+        return authorsJdbcRepo.countAuthorsByBirthYear();
     }
 
     @Override

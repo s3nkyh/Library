@@ -5,8 +5,6 @@ package com.example.jooq;
 
 
 import com.example.jooq.tables.*;
-import com.example.jooq.tables.Databasechangelog;
-import com.example.jooq.tables.Databasechangeloglock;
 
 
 /**

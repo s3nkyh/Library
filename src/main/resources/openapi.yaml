@@ -30,7 +30,8 @@ paths:
               schema:
                 type: object
                 additionalProperties:
-                  type: integer
+                    type: integer
+
   /users/{readerId}/borrowed-books:
     get:
       summary: Get books borrowed by specific reader

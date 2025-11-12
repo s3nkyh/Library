@@ -4,16 +4,16 @@
 package com.example.jooq.tables;
 
 
-import org.jooq.*;
-import org.jooq.Record;
-import org.jooq.impl.DSL;
-import org.jooq.impl.SQLDataType;
-import org.jooq.impl.TableImpl;
 import com.example.jooq.Keys;
 import com.example.jooq.Public;
 import com.example.jooq.tables.Books.BooksPath;
 import com.example.jooq.tables.records.BooksRecord;
 import com.example.jooq.tables.records.GenresRecord;
+import org.jooq.*;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
+import org.jooq.impl.TableImpl;
 
 import java.util.Arrays;
 import java.util.Collection;

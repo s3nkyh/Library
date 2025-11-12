@@ -1,13 +1,10 @@
-import org.apache.hc.core5.io.SocketTimeoutExceptionFactory.create
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.openApiGenerate
-
 plugins {
     java
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
     id("nu.studer.jooq") version "9.0"
     id ("org.openapi.generator") version "7.0.1"
+    id("com.google.cloud.tools.jib") version "3.4.3"
 }
 
 group = "org"
@@ -52,6 +49,7 @@ dependencies {
     /**
      * Utils and Logging
      */
+    implementation("org.openapitools:jackson-databind-nullable:0.2.5")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
     annotationProcessor ("org.projectlombok:lombok-mapstruct-binding:0.2.0")
@@ -67,6 +65,11 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
+    imageName.set("library-app:latest")
+    environment.set(mapOf("BP_JVM_VERSION" to "17"))
+}
+
 sourceSets {
     main {
         java {
@@ -77,7 +80,7 @@ sourceSets {
     }
 }
 
-openApiGenerate {
+tasks.register("generateSpringApi", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
     generatorName.set("spring")
     inputSpec.set("$projectDir/src/main/resources/openapi.yaml".replace("\\", "/"))
     outputDir.set("$buildDir/openapi-generated")
@@ -91,12 +94,14 @@ openApiGenerate {
             "useTags" to "true",
             "java8" to "true",
             "dateLibrary" to "java8",
-            "delegatePattern" to "false"
+            "delegatePattern" to "false",
+            "apiNameSuffix" to "Api",
+            "useJakartaEe" to "true"
         )
     )
 }
 
-openApiGenerate {
+tasks.register("generateJavaClient", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
     generatorName = "java"
     inputSpec.set("$rootDir/src/main/resources/openapi.yaml".replace("\\", "/"))
     outputDir.set("$buildDir/generated/openapi-client")
@@ -110,6 +115,13 @@ openApiGenerate {
             "dateLibrary" to "java8",
             "useJakartaEe" to "true"
         )
+    )
+}
+
+tasks.named<JavaCompile>("compileJava") {
+    dependsOn(
+        tasks.named("generateSpringApi"),
+        tasks.named("generateJavaClient")
     )
 }
 
@@ -157,4 +169,9 @@ jooq {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("spring.profiles.active", "test")
+}
+
+tasks.named("build") {
+    finalizedBy("bootBuildImage")
 }

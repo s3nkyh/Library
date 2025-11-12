@@ -1,21 +1,43 @@
 package org.library.jdbc;
 
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.library.BaseIntegrationTest;
 import org.library.model.Book;
 import org.library.repo.jdbc.BorrowingJdbcRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Testcontainers
+@SpringBootTest(properties = "spring.profiles.active=test")
+@Transactional
+public class BorrowingJdbcRepoTest {
+    @Container
+    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.0")
+            .withDatabaseName("postgres")
+            .withUsername("postgres")
+            .withPassword("password");
 
-public class BorrowingJdbcRepoTest extends BaseIntegrationTest {
+    @DynamicPropertySource
+    static void registerPgContainer(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.username", postgres::getUsername);
+    }
+
     @Autowired
     private BorrowingJdbcRepo borrowingJdbcRepo;
     @Autowired
@@ -31,9 +53,9 @@ public class BorrowingJdbcRepoTest extends BaseIntegrationTest {
         jdbcTemplate.update("INSERT INTO genres (name) VALUES (?)", "Fantasy");
 
         jdbcTemplate.update("""
-                INSERT INTO books (title, author_id, genre_id, published_year, available_copies, total_copies)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
+                        INSERT INTO books (title, author_id, genre_id, published_year, available_copies, total_copies)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        """,
                 "The Hobbit", 1L, 1L, 1937, 5, 5);
 
         jdbcTemplate.update("INSERT INTO readers (name, email, phone, membership_date, is_active) VALUES (?, ?, ?, ?, ?)",

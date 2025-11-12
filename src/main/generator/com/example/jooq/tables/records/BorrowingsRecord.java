@@ -4,8 +4,8 @@
 package com.example.jooq.tables.records;
 
 
-import com.example.jooq.tables.pojos.Borrowings;
 import com.example.jooq.enums.BorrowingStatus;
+import com.example.jooq.tables.pojos.Borrowings;
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 

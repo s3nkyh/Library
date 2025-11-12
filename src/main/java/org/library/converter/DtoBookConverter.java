@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DtoBookConverter {
-    public org.library.generated.model.BookDto toBookDto(BookDto  bookDto) {
+    public org.library.generated.model.BookDto toBookDto(BookDto bookDto) {
         var author = new org.library.generated.model.AuthorDto()
                 .id(bookDto.getAuthor().getId())
                 .name(bookDto.getAuthor().getName())

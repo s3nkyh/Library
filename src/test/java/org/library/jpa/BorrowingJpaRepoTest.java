@@ -2,20 +2,40 @@ package org.library.jpa;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.library.BaseIntegrationTest;
 import org.library.model.*;
 import org.library.repo.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Testcontainers
+@SpringBootTest(properties = "spring.profiles.active=test")
 @Transactional
-public class BorrowingJpaRepoTest extends BaseIntegrationTest {
+public class BorrowingJpaRepoTest {
+    @Container
+    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.0")
+            .withDatabaseName("postgres")
+            .withUsername("postgres")
+            .withPassword("password");
+
+    @DynamicPropertySource
+    static void registerPgContainer(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.username", postgres::getUsername);
+    }
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -94,7 +114,8 @@ public class BorrowingJpaRepoTest extends BaseIntegrationTest {
 
     @Test
     void testFindBooksByReaderId() {
-        List<Borrowing> borrowings = borrowingRepo.findByReaderId(1L);
+        Reader reader = readerRepo.findAll().get(0);
+        List<Borrowing> borrowings = borrowingRepo.findByReaderId(reader.getId());
         assertThat(borrowings).hasSize(3);
     }
 }

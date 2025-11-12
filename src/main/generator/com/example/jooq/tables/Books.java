@@ -4,6 +4,12 @@
 package com.example.jooq.tables;
 
 
+import com.example.jooq.Indexes;
+import com.example.jooq.Keys;
+import com.example.jooq.Public;
+import com.example.jooq.tables.Authors.AuthorsPath;
+import com.example.jooq.tables.Borrowings.BorrowingsPath;
+import com.example.jooq.tables.Genres.GenresPath;
 import com.example.jooq.tables.records.BooksRecord;
 import org.jooq.*;
 import org.jooq.Record;
@@ -11,12 +17,6 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
-import com.example.jooq.Indexes;
-import com.example.jooq.Keys;
-import com.example.jooq.Public;
-import com.example.jooq.tables.Authors.AuthorsPath;
-import com.example.jooq.tables.Borrowings.BorrowingsPath;
-import com.example.jooq.tables.Genres.GenresPath;
 
 import java.util.Arrays;
 import java.util.Collection;

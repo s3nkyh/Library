@@ -4,6 +4,8 @@
 package com.example.jooq.tables;
 
 
+import com.example.jooq.Keys;
+import com.example.jooq.Public;
 import com.example.jooq.tables.Books.BooksPath;
 import com.example.jooq.tables.records.AuthorsRecord;
 import org.jooq.*;
@@ -11,8 +13,6 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
-import com.example.jooq.Keys;
-import com.example.jooq.Public;
 
 import java.time.LocalDate;
 import java.util.Collection;

@@ -1,10 +1,10 @@
 package org.library.repo.jooq;
 
+import com.example.jooq.tables.Authors;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.DatePart;
 import org.jooq.impl.DSL;
-import com.example.jooq.tables.Authors;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

@@ -8,12 +8,13 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active=test")
 public abstract class BaseIntegrationTest {
     @Container
     public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.0")
             .withDatabaseName("postgres")
-            .withUsername("postgres");
+            .withUsername("postgres")
+            .withPassword("password");
 
     @DynamicPropertySource
     static void registerPgContainer(DynamicPropertyRegistry registry) {

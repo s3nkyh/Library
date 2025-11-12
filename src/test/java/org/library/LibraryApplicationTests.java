@@ -6,10 +6,11 @@ import org.springframework.context.annotation.Import;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest
-class LibraryApplicationTests {
+class LibraryApplicationTests extends BaseIntegrationTest{
 
     @Test
     void contextLoads() {
     }
 
 }
+

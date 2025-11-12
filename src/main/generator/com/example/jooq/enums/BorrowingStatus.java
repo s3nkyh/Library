@@ -4,10 +4,10 @@
 package com.example.jooq.enums;
 
 
+import com.example.jooq.Public;
 import org.jooq.Catalog;
 import org.jooq.EnumType;
 import org.jooq.Schema;
-import com.example.jooq.Public;
 
 
 /**

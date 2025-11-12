@@ -7,13 +7,35 @@ import org.library.BaseIntegrationTest;
 import org.library.model.Book;
 import org.library.repo.jooq.BorrowingJooqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BorrowingJooqRepoTest extends BaseIntegrationTest {
+@Testcontainers
+@SpringBootTest(properties = "spring.profiles.active=test")
+public class BorrowingJooqRepoTest{
+
+    @Container
+    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.0")
+            .withDatabaseName("postgres")
+            .withUsername("postgres")
+            .withPassword("password");
+
+    @DynamicPropertySource
+    static void registerPgContainer(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.username", postgres::getUsername);
+    }
+
     @Autowired
     private BorrowingJooqRepo borrowingJdbcRepo;
 
@@ -30,9 +52,9 @@ public class BorrowingJooqRepoTest extends BaseIntegrationTest {
         dslContext.query("INSERT INTO genres (name) VALUES (?)", "Fantasy").execute();
 
         dslContext.query("""
-                INSERT INTO books (title, author_id, genre_id, published_year, available_copies, total_copies)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
+                        INSERT INTO books (title, author_id, genre_id, published_year, available_copies, total_copies)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        """,
                 "The Hobbit", 1L, 1L, 1937, 5, 5).execute();
 
         dslContext.query("INSERT INTO readers (name, email, phone, membership_date, is_active) VALUES (?, ?, ?, ?, ?)",

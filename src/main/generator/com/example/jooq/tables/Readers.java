@@ -4,17 +4,17 @@
 package com.example.jooq.tables;
 
 
-import org.jooq.*;
-import org.jooq.Record;
-import org.jooq.impl.DSL;
-import org.jooq.impl.SQLDataType;
-import org.jooq.impl.TableImpl;
 import com.example.jooq.Indexes;
 import com.example.jooq.Keys;
 import com.example.jooq.Public;
 import com.example.jooq.tables.Borrowings.BorrowingsPath;
 import com.example.jooq.tables.records.BorrowingsRecord;
 import com.example.jooq.tables.records.ReadersRecord;
+import org.jooq.*;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
+import org.jooq.impl.TableImpl;
 
 import java.time.LocalDate;
 import java.util.Arrays;
